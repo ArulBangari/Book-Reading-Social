@@ -12,10 +12,7 @@ export default function TitleInfo(props) {
         </Typography>
         {authors && authors.length > 0 && (
           <Typography gutterBottom variant="h6" component="div">
-            by{" "}
-            {authors.map((author, index) =>
-              index === authors.length - 1 ? author : author + ", "
-            )}
+            by {authors.join(", ")}
           </Typography>
         )}
         {typeof props.description == "string" && (

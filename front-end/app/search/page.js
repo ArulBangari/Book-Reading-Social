@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import SearchBar from "../components/SearchBar.js";
-import SearchPage from "./SearchPage.js";
+import SearchPage from "./searchPage.js";
 
 export default function Page() {
   // Get search parameters from the URL
