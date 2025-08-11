@@ -28,7 +28,11 @@ body {
 
 .name {
   color: white;
-  margin-bottom: 0px !important;
+}
+
+.greeting {
+  color: white;
+  padding-right: 20px;
 }
 
 .search-bar {
@@ -89,14 +93,16 @@ body {
   justify-content: center;
 }
 
-.login-card {
+.login-card,
+.register-card {
   display: flex;
   min-height: 50vh;
   justify-content: center;
   align-items: center;
 }
 
-.login-form {
+.login-form,
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 16px;

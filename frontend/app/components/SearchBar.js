@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
 import React from "react";
+import axios from "axios";
 import "../../public/App.css";
 import RegisterButton from "./RegisterButton";
 import LoginButton from "./LoginButton";
@@ -17,10 +18,32 @@ const darkTheme = createTheme({
 
 export default function SearchBar() {
   const router = useRouter();
+
+  const [userInfo, setUserInfo] = React.useState({
+    username: "",
+    loggedIn: false,
+  });
+
   const [data, setData] = React.useState({
     title: "",
     author: "",
   });
+
+  React.useEffect(() => {
+    async function checkCookies() {
+      const response = await axios.get("http://localhost:4000/current-user", {
+        withCredentials: true,
+      });
+      return response;
+    }
+    checkCookies()
+      .then((response) => {
+        setUserInfo((prev) => ({ ...prev, ...response.data }));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -48,7 +71,6 @@ export default function SearchBar() {
       <div className="logo-name">
         <Typography
           onClick={handleClick}
-          gutterBottom
           variant="h4"
           component="div"
           className="name"
@@ -81,10 +103,14 @@ export default function SearchBar() {
           <SearchIcon />
         </Fab>
       </form>
-      <div className="register-login">
-        <RegisterButton />
-        <LoginButton />
-      </div>
+      {userInfo.loggedIn ? (
+        <Typography className="greeting">Hello, {userInfo.username}</Typography>
+      ) : (
+        <div className="register-login">
+          <RegisterButton />
+          <LoginButton />
+        </div>
+      )}
     </div>
   );
 }
