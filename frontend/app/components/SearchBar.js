@@ -31,11 +31,16 @@ export default function SearchBar() {
 
   React.useEffect(() => {
     async function checkCookies() {
-      const response = await axios.get("http://localhost:4000/current-user", {
-        withCredentials: true,
-      });
-      return response;
+      try {
+        const response = await axios.get("http://localhost:4000/current-user", {
+          withCredentials: true,
+        });
+        return response;
+      } catch (err) {
+        return { username: "", loggedIn: false };
+      }
     }
+
     checkCookies()
       .then((response) => {
         setUserInfo((prev) => ({ ...prev, ...response.data }));

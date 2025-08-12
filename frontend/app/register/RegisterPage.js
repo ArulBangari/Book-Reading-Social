@@ -34,6 +34,7 @@ export default function RegisterPage() {
         },
         { withCredentials: true }
       );
+      router.push("/");
     } catch (err) {
       if (err.response.status == 401) {
         updateTried(true);
@@ -75,6 +76,7 @@ export default function RegisterPage() {
             <TextField
               label="Password"
               variant="outlined"
+              type="password"
               name="password"
               value={registerInfo.pass}
               sx={{ maxWidth: 500, width: 500 }}

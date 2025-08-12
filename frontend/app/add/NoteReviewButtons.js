@@ -1,51 +1,56 @@
+"use client";
+
 import { Fab, TextField, Rating, Button, Stack } from "@mui/material";
 import NotesIcon from "@mui/icons-material/Notes";
 import RateReviewIcon from "@mui/icons-material/RateReview";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function NotesSummaryButtons() {
+export default function NoteReviewButtons(props) {
   const [visibleInputs, setVisibleInputs] = useState({
-    notes: false,
-    summary: false,
+    showNote: false,
+    showReview: false,
   });
 
   const [inputs, setInputs] = useState({
-    notes: "",
-    summary: "",
-    rating: "",
+    note: "",
+    review: "",
+    rating: 0,
   });
 
-  function handleClick(type) {
+  function handleClick(event) {
+    const name = event.currentTarget.name;
     setVisibleInputs((previous) => {
-      return { ...previous, [type]: !visibleInputs[type] };
+      return { ...previous, [name]: !visibleInputs[name] };
     });
   }
 
-  function handleChange(event, type) {
+  function handleChange(event) {
     let value = event.target.value;
+    const name = event.target.name;
     setInputs((previous) => {
-      if (type === "rating") {
+      if (name === "rating") {
         value = previous.rating === value ? "" : value;
       }
-      return { ...previous, [type]: value };
+      return { ...previous, [name]: value };
     });
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    props.sendData(inputs.note, inputs.rating, inputs.review);
   }
 
   return (
     <div style={{ marginBottom: "24px" }}>
       <div style={{ paddingBottom: "16px" }}>
-        <Fab
-          sx={{ mr: 2 }}
-          onClick={() => handleClick("summary")}
-          value={visibleInputs.summary}
-        >
+        <Fab sx={{ mr: 2 }} name="showReview" onClick={handleClick}>
           <RateReviewIcon />
         </Fab>
-        <Fab onClick={() => handleClick("notes")}>
+        <Fab name="showNote" onClick={handleClick}>
           <NotesIcon />
         </Fab>
       </div>
-      <form className="summary-notes">
+      <form className="review-note" onSubmit={handleSubmit}>
         <Stack
           spacing={2}
           sx={{
@@ -54,44 +59,44 @@ export default function NotesSummaryButtons() {
             flexDirection: "column",
           }}
         >
-          {(visibleInputs.summary || visibleInputs.notes) && (
+          {(visibleInputs.showReview || visibleInputs.showNote) && (
             <Rating
-              name="user-rating"
+              name="rating"
               value={inputs.rating}
               onChange={(event) => {
-                handleChange(event, "rating");
+                handleChange(event);
               }}
             />
           )}
-          {visibleInputs.summary && (
+          {visibleInputs.showReview && (
             <TextField
               fullWidth
-              id="summary"
-              name="summary"
-              label="Summary"
+              id="review"
+              name="review"
+              label="Review"
               variant="outlined"
               multiline
-              value={inputs.summary}
+              value={inputs.review}
               onChange={(event) => {
-                handleChange(event, "summary");
+                handleChange(event);
               }}
             />
           )}
-          {visibleInputs.notes && (
+          {visibleInputs.showNote && (
             <TextField
               fullWidth
-              id="notes"
-              name="notes"
-              label="Notes"
+              id="note"
+              name="note"
+              label="Note"
               variant="outlined"
               multiline
-              value={inputs.notes}
+              value={inputs.note}
               onChange={(event) => {
-                handleChange(event, "notes");
+                handleChange(event);
               }}
             />
           )}
-          {(visibleInputs.notes || visibleInputs.summary) && (
+          {(visibleInputs.showNote || visibleInputs.showReview) && (
             <Button type="submit" variant="contained">
               Add
             </Button>

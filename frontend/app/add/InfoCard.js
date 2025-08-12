@@ -1,9 +1,40 @@
 import TitleInfo from "../components/TitleInfo";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import NotesSummaryButtons from "./NotesSummaryButtons.js";
+import NoteReviewButtons from "./NoteReviewButtons.js";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function InfoCard(props) {
+  const router = useRouter();
+  async function sendData(note, rating, review) {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/add",
+        {
+          note: note,
+          rating: rating,
+          review: review,
+          title: props.title,
+          cover_url: props.cover,
+          author: props.author,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      router.push("/");
+    } catch (err) {
+      if (err.response?.status == 401) {
+        console.log(err);
+      } else if (err.response?.status == 400) {
+        console.log(err);
+      } else {
+        console.log(err);
+      }
+    }
+  }
+
   return (
     <Card
       className="info-card"
@@ -32,7 +63,7 @@ export default function InfoCard(props) {
         title={props.title}
         description={props.description}
       />
-      <NotesSummaryButtons />
+      <NoteReviewButtons sendData={sendData} />
     </Card>
   );
 }
