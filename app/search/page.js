@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import SearchBar from "./SearchBar";
+import SearchBar from "../components/SearchBar";
 import SearchPage from "./SearchPage";
 
 function PageContent() {
