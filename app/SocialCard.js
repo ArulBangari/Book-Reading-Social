@@ -17,7 +17,8 @@ export default function SocialCard() {
         const response = await axios.get(backendURL + "/posts");
         setReviews(response.data.reviews);
       } catch (err) {
-        if (err.status == 404) {
+        console.log(err);
+        if (err.status == 404 || err.status >= 500) {
           setCheck(true);
         }
         setReviews([]);
