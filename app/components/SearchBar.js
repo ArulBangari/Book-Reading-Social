@@ -12,6 +12,8 @@ import "../../public/App.css";
 import RegisterButton from "./RegisterButton";
 import LoginButton from "./LoginButton";
 
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 const darkTheme = createTheme({
   palette: { mode: "dark" },
 });
@@ -32,7 +34,7 @@ export default function SearchBar() {
   React.useEffect(() => {
     async function checkCookies() {
       try {
-        const response = await axios.get("http://localhost:4000/current-user", {
+        const response = await axios.get(backendURL + "/current-user", {
           withCredentials: true,
         });
         return response;

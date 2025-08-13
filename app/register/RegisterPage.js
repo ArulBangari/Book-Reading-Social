@@ -8,6 +8,8 @@ import axios from "axios";
 import { useState } from "react";
 import BookFace from "../components/BookFace";
 
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function RegisterPage() {
   const [registerInfo, updateInfo] = useState({
     username: "",
@@ -24,9 +26,10 @@ export default function RegisterPage() {
   }
 
   async function handleSubmit(event) {
+    console.log(backendURL + "/register");
     try {
       const response = await axios.post(
-        "http://localhost:4000/register",
+        backendURL + "/register",
         {
           username: registerInfo.username,
           email: registerInfo.email,
@@ -36,7 +39,7 @@ export default function RegisterPage() {
       );
       router.push("/");
     } catch (err) {
-      if (err.response.status == 401) {
+      if (err.status == 401) {
         updateTried(true);
       } else {
         console.log(err);

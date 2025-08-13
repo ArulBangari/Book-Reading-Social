@@ -11,6 +11,8 @@ import { formatTime } from "./helper";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function SocialCardLayout(props) {
   const [notes, setNotes] = useState([]);
   const username = props.review.username;
@@ -26,7 +28,7 @@ export default function SocialCardLayout(props) {
   useEffect(() => {
     async function getNotes() {
       try {
-        const response = await axios.get("http://localhost:4000/notes", {
+        const response = await axios.get(backendURL + "/notes", {
           params: { book_id: book_id, user_id: user_id },
         });
         setNotes(response.data.notes);

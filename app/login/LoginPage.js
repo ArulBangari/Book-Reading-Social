@@ -9,6 +9,8 @@ import axios from "axios";
 import { useState } from "react";
 import BookFace from "../components/BookFace";
 
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function LoginPage() {
   const [loginInfo, updateInfo] = useState({ user: "", pass: "" });
   const [tried, updateTried] = useState(false);
@@ -28,7 +30,7 @@ export default function LoginPage() {
   async function handleSubmit(event) {
     try {
       const response = await axios.post(
-        "http://localhost:4000/login",
+        backendURL + "/login",
         {
           username: loginInfo.user,
           password: loginInfo.pass,
