@@ -45,6 +45,7 @@ export default function SearchBar() {
 
     checkCookies()
       .then((response) => {
+        console.log(response);
         setUserInfo((prev) => ({ ...prev, ...response.data }));
         console.log(userInfo);
       })
