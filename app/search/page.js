@@ -1,11 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import SearchBar from "../components/SearchBar.js";
-import SearchPage from "./searchPage.js";
+import SearchBar from "./SearchBar";
+import SearchPage from "./SearchPage";
 
-export default function Page() {
-  // Get search parameters from the URL
+function PageContent() {
   const searchParams = useSearchParams();
   const title = searchParams.get("title");
   const author = searchParams.get("author");
@@ -16,5 +16,13 @@ export default function Page() {
       <SearchBar />
       <SearchPage title={title} author={author} language={language} />
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PageContent />
+    </Suspense>
   );
 }
