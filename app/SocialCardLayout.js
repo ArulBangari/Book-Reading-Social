@@ -39,7 +39,7 @@ export default function SocialCardLayout(props) {
   }, []);
 
   return (
-    <Card sx={{ width: "100%", maxWidth: 600, borderRadius: 10, mt: 2 }}>
+    <Card sx={{ width: "100%", maxWidth: 500, borderRadius: 10, mt: 2 }}>
       <div className="social-items-center">
         <SocialHeader username={username} title={title} date={formatted} />
         <CardMedia
