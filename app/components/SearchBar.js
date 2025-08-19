@@ -43,24 +43,24 @@ export default function SearchBar() {
       }
     }
 
-    try {
-      localStorage.getItem(user);
-    } catch {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!storedUser || !storedUser.loggedIn) {
       checkCookies()
         .then((response) => {
           const data = {
             loggedIn: response.data.loggedIn,
             username: response.data.username,
           };
-
           localStorage.setItem("user", JSON.stringify(data));
+          setUserInfo((prev) => ({ ...prev, ...data }));
         })
         .catch((err) => {
           console.error(err);
         });
+    } else {
+      setUserInfo((prev) => ({ ...prev, ...storedUser }));
     }
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUserInfo((prev) => ({ ...prev, ...storedUser }));
   }, []);
 
   function handleChange(event) {
